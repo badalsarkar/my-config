@@ -1,0 +1,8 @@
+alias code="cd ~/code"
+alias src="source ~/.zshrc"
+alias ezshrc="vim ~/badal/config/zsh/.zshrc"
+alias badal="cd ~/badal"
+alias lsl="ls -al"
+alias cl="clear"
+alias suspend="systemctl suspend"
+alias ..="cd .."
