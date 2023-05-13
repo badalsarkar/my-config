@@ -1,4 +1,7 @@
 alias code="cd ~/code"
+alias dc="cd ~/Documents"
+alias dw="cd ~/Downloads"
+alias ealias="cd ~/badal/aliases"
 alias src="source ~/.zshrc"
 alias ezshrc="vim ~/badal/config/zsh/.zshrc"
 alias badal="cd ~/badal"
