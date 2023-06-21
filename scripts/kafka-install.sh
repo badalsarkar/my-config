@@ -49,8 +49,9 @@ else
   sed -i 's/#listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/localhost:9092/g' /opt/kafka_2.13-3.0.0/config/server.properties
   sed -i 's/#advertised.listeners=PLAINTEXT:\/\/your.host.name:9092/advertised.listeners=PLAINTEXT:\/\/localhost:9092/g' /opt/kafka_2.13-3.0.0/config/server.properties
 
-  # Start
-  Kafka /opt/kafka_2.13-3.0.0/bin/kafka-server-start.sh -daemon /opt/kafka_2.13-3.0.0/config/server.properties
+  #  Start Kafka
+  
+  /opt/kafka_2.13-3.0.0/bin/kafka-server-start.sh -daemon /opt/kafka_2.13-3.0.0/config/server.properties
 
   echo "Kafka installation completed successfully."
 fi
