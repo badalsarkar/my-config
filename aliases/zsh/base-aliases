@@ -7,6 +7,8 @@ alias myscripts="cd ~/badal/my-config/scripts"
 alias ealacritty="vim $HOME/badal/my-config/config/alacritty/alacritty.yml"
 alias ezshrc="vim $HOME/badal/my-config/config/zsh/.zshrc"
 
+alias pd="pushd"
+alias ppd="popd"
 alias dc="cd ~/Documents"
 alias dw="cd ~/Downloads"
 alias ealias="cd ~/badal/aliases"
