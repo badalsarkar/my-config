@@ -152,6 +152,7 @@ assign [class="Alacritty"] $ws1
 assign [class="firefox"] $ws3
 assign [class="Microsoft-egde-dev"] $ws3
 assign [class="jetbrains-idea"] $ws2
+assign [class="jetbrains-pycharm"] $ws2
 assign [class="Wireshark"] $ws4
 
 # reload the configuration file
