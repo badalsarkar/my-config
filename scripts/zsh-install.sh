@@ -7,7 +7,7 @@ sudo dnf update
 sudo dnf install zsh
 
 # Change the default shell to Zsh
-chsh -s /bin/zsh $USER
+chsh -s $(which zsh) $USER
 
 # Print a message to restart the shell
 echo "Zsh has been installed. Please restart your shell."

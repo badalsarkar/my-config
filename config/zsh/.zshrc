@@ -25,10 +25,11 @@ export HISTSIZE=1000
 export SAVEHIST=1000
 
 # make caps lock work as control
-setxkbmap -option ctrl:nocaps
+#setxkbmap -option ctrl:nocaps
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+fpath+=${ZDOTDIR:-~}/.zsh_functions
