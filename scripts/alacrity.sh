@@ -2,25 +2,26 @@
 #
 echo Updating...
 sudo dnf update
-sudo dnf install cmake freetype-devel fontconfig-devel libxcb-devel xcb-util-devel xcb-util-image-devel xcb-util-wm-devel
 
 echo =====================================
 echo Cloning alacritty repository
 echo =====================================
-./utilities/create-folder-if-not-exists.sh "/home/bsarkar/code" && cd ~/code
+./utilities/create-folder-if-not-exists.sh "$BADAL_HOME/code" && cd $BADAL_HOME/code
 git clone https://github.com/alacritty/alacritty.git
+cd alacritty
 
 echo =====================================
-echo Installing RUST programming language 
+echo Installing rustup 
 echo =====================================
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup override set stable
 rustup update stable
 
 echo =====================================
-echo Installing dependencies for Fedora 
+echo Installing dependencies 
 echo =====================================
-dnf install cmake freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel g++
+sudo dnf install cmake freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel g++ 
+
 
 echo =====================================
 echo Building and installing alacritty
@@ -40,10 +41,16 @@ echo making alacrity the default terminal
 echo =====================================
 sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
 
+echo =====================================
+echo Configure ZSH shell completion 
+echo =====================================
+mkdir -p ${ZDOTDIR:-~}/.zsh_functions
+echo 'fpath+=${ZDOTDIR:-~}/.zsh_functions' >> ${ZDOTDIR:-~}/.zshrc
+
 
 echo =====================================
 echo Linking config file 
 echo =====================================
 cd
-ln -sf $HOME/badal/my-config/config/alacritty/alacritty.toml . 
+ln -sf $BADAL_HOME/badal/my-config/config/alacritty/alacritty.toml . 
 

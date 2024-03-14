@@ -15,9 +15,11 @@ zstyle ':vcs_info:git:*' formats       '(%b | %u%c%m)'
 setopt PROMPT_SUBST
 PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f $ '
 
+# My directory setup
+export BADAL_HOME=$HOME/Documents
 # Source aliases
-source ~/badal/my-config/aliases/zsh/base-aliases
-source ~/badal/my-config/aliases/zsh/git-aliases
+source $BADAL_HOME/badal/my-config/aliases/zsh/base-aliases
+source $BADAL_HOME/badal/my-config/aliases/zsh/git-aliases
 
 # keep command history 
 export HISTFILE=~/.zsh_history
@@ -32,4 +34,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+fpath+=${ZDOTDIR:-~}/.zsh_functions
+fpath+=${ZDOTDIR:-~}/.zsh_functions
+fpath+=${ZDOTDIR:-~}/.zsh_functions
 fpath+=${ZDOTDIR:-~}/.zsh_functions

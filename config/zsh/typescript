@@ -1,0 +1,31 @@
+Script started on 2024-03-13 16:31:19-04:00 [TERM="foot" TTY="/dev/pts/0" COLUMNS="319" LINES="63"]
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:19[39m [34m~/Documents/badal/my-config/config/zsh[39m [31m(main | U)[39m $ [K[?2004hssctipts[?2004l
+zsh: command not found: sctipts
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:26[39m [34m~/Documents/badal/my-config/config/zsh[39m [31m(main | U)[39m $ [K[?2004h...[?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:28[39m [34m~/Documents/badal/my-config/config[39m [31m(main | U)[39m $ [K[?2004hlls[?2004l
+[0m[01;34malacritty[0m  [01;34mi3wm[0m  [01;34mtmux[0m  [01;34mvim[0m  [01;34mzsh[0m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:29[39m [34m~/Documents/badal/my-config/config[39m [31m(main | U)[39m $ [K[?2004h...[?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:33[39m [34m~/Documents/badal/my-config[39m [31m(main | U)[39m $ [K[?2004hccd scripts[1m/[0m[0m [?2004l
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:35[39m [34m~/Documents/badal/my-config/scripts[39m [31m(main | U)[39m $ [K[?2004hllsl[?2004l
+total 56
+drwxr-xr-x. 1 bsarkar bsarkar  516 Mar 13 16:28 [0m[01;34m.[0m
+drwxr-xr-x. 1 bsarkar bsarkar   88 Mar 13 16:04 [01;34m..[0m
+-rwxr-xr-x. 1 bsarkar bsarkar 1764 Mar 13 16:04 [01;32malacrity.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  638 Mar 13 16:04 [01;32mdocker-fedora-install.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  143 Mar 13 16:04 [01;32mdo-symlink.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  225 Mar 13 16:04 [01;32mfedora-i3-wm-instal.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar   22 Mar 13 16:04 [01;32mgit-dev-env-setup.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  313 Mar 13 16:04 [01;32mgo-install.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar 1665 Mar 13 16:04 [01;32mintellij-toolbox-install.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  109 Mar 13 16:04 [01;32mjava-dev-env-setup.sh[0m
+-rw-r--r--. 1 bsarkar bsarkar  461 Mar 13 16:04 java-install.sh
+drwxr-xr-x. 1 bsarkar bsarkar   46 Mar 13 16:04 [01;34mkafka[0m
+-rw-r--r--. 1 bsarkar bsarkar 1975 Mar 13 16:04 kafka-install.sh
+-rwxr-xr-x. 1 bsarkar bsarkar   45 Mar 13 16:04 [01;32mmisc-install.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar   38 Mar 13 16:04 [01;32mstart-kafka-server.sh[0m
+drwxr-xr-x. 1 bsarkar bsarkar  184 Mar 13 16:30 [01;34mutilities[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  166 Mar 13 16:04 [01;32mvim-setup.sh[0m
+-rwxr-xr-x. 1 bsarkar bsarkar  291 Mar 13 16:04 [01;32mzsh-install.sh[0m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                                                               [0m[27m[24m[J[32m16:31:36[39m [34m~/Documents/badal/my-config/scripts[39m [31m(main | U)[39m $ [K[?2004heeie exit[?2004l
+
+Script done on 2024-03-13 16:31:46-04:00 [COMMAND_EXIT_CODE="0"]
