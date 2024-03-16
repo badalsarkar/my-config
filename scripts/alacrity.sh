@@ -26,6 +26,7 @@ sudo dnf install cmake freetype-devel fontconfig-devel libxcb-devel libxkbcommon
 echo =====================================
 echo Building and installing alacritty
 echo =====================================
+source $HOME/.cargo/env
 cargo build --release
 
 echo =====================================
