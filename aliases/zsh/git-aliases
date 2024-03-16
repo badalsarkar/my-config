@@ -3,3 +3,5 @@ alias gcm="git checkout main"
 alias gpl="git pull"
 alias gl="git log"
 alias gaddp="git add -p"
+alias gitpush="git push"
+
