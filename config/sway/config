@@ -171,6 +171,7 @@ output * bg /usr/share/backgrounds/default.png fill
 
 # Default workspaces for common programs
     assign [app_id="Alacritty"] $ws1
+    assign [class="jetbrains-idea"] $ws2
     assign [app_id="firefox"] $ws3
     # assign [class="^code-oss$"] $ws2
 
