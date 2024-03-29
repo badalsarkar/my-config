@@ -37,8 +37,30 @@ set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg /usr/share/backgrounds/default.png fill
-#
+#output * bg /usr/share/backgrounds/default.png fill
+
+# laptop monitor
+set $laptop_monitor eDP-1
+output $laptop_monitor {
+    mode 1920x1080@60.049Hz
+    pos 3440 0
+    bg /usr/share/backgrounds/default.png fill
+}
+
+# my external monitor
+output DP-1 {
+    mode 3440x1440@59.973Hz
+    # this means the external monitor is to the left of laptop
+    pos 0 0
+    bg /usr/share/backgrounds/default.png fill
+}
+
+# disable laptop monitor if the lid is closed
+# enable when it is open
+# https://github.com/swaywm/sway/wiki#clamshell-mode
+bindswitch --reload --locked lid:on output $laptop_monitor disable
+bindswitch --reload --locked lid:off output $laptop_monitor enable 
+
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
