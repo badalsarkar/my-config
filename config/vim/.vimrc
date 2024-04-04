@@ -1,9 +1,16 @@
 call plug#begin()
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-repeat'
+    Plug 'preservim/nerdtree'
+    Plug 'airblade/vim-gitgutter'
 call plug#end()
 
+highlight SignColumn ctermbg=black
+
+
+"NERDTree config
+nnoremap <C-n> :NERDTreeToggle<CR>
 syntax on
 filetype plugin indent on
 set number
@@ -17,8 +24,8 @@ set laststatus=2
 "set colorcolumn=80      
 
 "Reformat lines which is more than 120 character long.
-set tw=100
-au BufRead,BufNewFile *.md setlocal textwidth=80
+set tw=120
+au BufRead,BufNewFile *.md setlocal textwidth=120
 nnoremap gqa :g/./ normal gqq <Enter>
 
 "don't pretend to be vi
@@ -93,6 +100,14 @@ nnoremap <C-t> :!
 "ctl+s to save in normal mode
 :nnoremap <C-a> <Esc>:w<Enter>
 "list function in normal mode
+
+""indentation for html
+autocmd Filetype html setlocal noexpandtab tabstop=2 sw=2 sts=2
+autocmd Filetype xml setlocal noexpandtab tabstop=2 sw=2 sts=2
+autocmd Filetype pug setlocal noexpandtab tabstop=2 sw=2 sts=2
+autocmd Filetype handlebars setlocal noexpandtab tabstop=2 sw=2 sts=2
+autocmd FileType markdown setlocal shiftwidth=2 softtabstop=2 expandtab
+
 
 
 set foldmethod=manual
