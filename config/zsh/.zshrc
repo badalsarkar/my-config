@@ -29,6 +29,9 @@ export SAVEHIST=1000
 # make caps lock work as control
 #setxkbmap -option ctrl:nocaps
 
+## Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

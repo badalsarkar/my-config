@@ -4,8 +4,11 @@ call plug#begin()
     Plug 'tpope/vim-repeat'
     Plug 'preservim/nerdtree'
     Plug 'airblade/vim-gitgutter'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 call plug#end()
 
+" Gitgutter configuration
 highlight SignColumn ctermbg=black
 
 
@@ -107,6 +110,9 @@ autocmd Filetype xml setlocal noexpandtab tabstop=2 sw=2 sts=2
 autocmd Filetype pug setlocal noexpandtab tabstop=2 sw=2 sts=2
 autocmd Filetype handlebars setlocal noexpandtab tabstop=2 sw=2 sts=2
 autocmd FileType markdown setlocal shiftwidth=2 softtabstop=2 expandtab
+
+"Editor configuration
+set cursorline
 
 
 
