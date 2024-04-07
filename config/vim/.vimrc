@@ -1,11 +1,12 @@
 call plug#begin()
-    Plug 'tpope/vim-commentary'
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-repeat'
+    "Plug 'tpope/vim-commentary'
+    "Plug 'tpope/vim-surround'
+    "Plug 'tpope/vim-repeat'
     Plug 'preservim/nerdtree'
     Plug 'airblade/vim-gitgutter'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Gitgutter configuration
