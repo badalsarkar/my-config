@@ -29,6 +29,7 @@ export SAVEHIST=1000
 # make caps lock work as control
 #setxkbmap -option ctrl:nocaps
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ## Set up fzf key bindings and fuzzy completion
 eval "$(fzf --zsh)"
 
@@ -36,7 +37,6 @@ eval "$(fzf --zsh)"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 fpath+=${ZDOTDIR:-~}/.zsh_functions
