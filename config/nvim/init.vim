@@ -4,7 +4,6 @@ call plug#begin()
     Plug 'junegunn/fzf.vim'
     Plug 'junegunn/goyo.vim'
     Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
