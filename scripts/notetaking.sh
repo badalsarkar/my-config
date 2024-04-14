@@ -1,30 +1,38 @@
 #!/bin/zsh
-#
-#
+
+
+#check if NOTE_BASE_DIR doesn't exists
+# ask user to input directory
+if [[ -z "$NOTE_BASE_DIR" ]];then
+    echo "NOTE_BASE_DIR env doesn't exist"
+    exit 1  # Exit script with error code
+fi
+
 noteType=$1
-export NOTE_BASE_DIR="$HOME/Documents/notes"
 
 case $noteType in
     m)
         dir="$NOTE_BASE_DIR/meeting"
+        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
 
     s)
         dir="$NOTE_BASE_DIR/scratch"
+        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     i)
         dir="$NOTE_BASE_DIR/idea"
+        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     l)
         dir="$NOTE_BASE_DIR/learning"
+        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     *)
         dir="$NOTE_BASE_DIR/notes"
+        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
 esac
-
-echo $dir
-
 
 noteFileName="$dir/note-$(date +%Y-%m-%d).md"
 

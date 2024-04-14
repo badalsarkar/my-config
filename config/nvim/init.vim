@@ -5,6 +5,7 @@ call plug#begin()
     Plug 'junegunn/goyo.vim'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
 " NERDTree config
@@ -44,4 +45,5 @@ set statusline+=\ %P    "percent through file
 
 "set jj as <esc> key
 inoremap jj <esc>
+nnoremap <C-f> :Files 
 
