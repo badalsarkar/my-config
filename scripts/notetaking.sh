@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-
 #check if NOTE_BASE_DIR doesn't exists
 # ask user to input directory
 if [[ -z "$NOTE_BASE_DIR" ]];then
