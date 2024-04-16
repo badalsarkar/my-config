@@ -12,24 +12,24 @@ noteType=$1
 case $noteType in
     m)
         dir="$NOTE_BASE_DIR/meeting"
-        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
+        $BADAL_HOME/badal/my-config/scripts/utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
 
     s)
         dir="$NOTE_BASE_DIR/scratch"
-        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
+        $BADAL_HOME/badal/my-config/scripts/utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     i)
         dir="$NOTE_BASE_DIR/idea"
-        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
+        $BADAL_HOME/badal/my-config/scripts/utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     l)
         dir="$NOTE_BASE_DIR/learning"
-        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
+        $BADAL_HOME/badal/my-config/scripts/utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
     *)
         dir="$NOTE_BASE_DIR/notes"
-        ./utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
+        $BADAL_HOME/badal/my-config/scripts/utilities/create-folder-if-not-exists.sh $dir 1> /dev/null
         ;;
 esac
 
