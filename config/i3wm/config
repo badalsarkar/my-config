@@ -150,6 +150,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [class="Xfce4-terminal"] $ws1
 assign [class="Alacritty"] $ws1
 assign [class="firefox"] $ws3
+assign [class="qutebrowser"] $ws3
 assign [class="Microsoft-egde-dev"] $ws3
 assign [class="jetbrains-idea"] $ws2
 assign [class="jetbrains-pycharm"] $ws2
