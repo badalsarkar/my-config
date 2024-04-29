@@ -26,6 +26,9 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=1000
 
+# Default editor
+export EDITOR=nvim
+
 # make caps lock work as control
 #setxkbmap -option ctrl:nocaps
 
