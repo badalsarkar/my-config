@@ -34,12 +34,6 @@ return {
 		keymap.set(
 			"n",
 			"<leader>ffh",
-			"<cmd>Telescope find_files hidden=true<CR>",
-			{ desc = "Fuzzy find files including hidden files in cwd" }
-		)
-		keymap.set(
-			"n",
-			"<leader>ffh",
 			"<cmd>Telescope find_files cwd=~ hidden=true<CR>",
 			{ desc = "Fuzzy find files in ~ including hidden files" }
 		)
