@@ -5,3 +5,16 @@ alias gl="git log"
 alias gaddp="git add -p"
 alias gitpush="git push"
 
+# Git add, commit, and push function
+gcp() {
+    if [ -z "$1" ]; then  # Check if a commit message is provided
+        echo "Usage: gcp \"Commit message\""
+        return 1
+    fi
+
+    git add .
+    git commit -m "$1"
+    git push  # Pushes to default remote and branch
+}
+
+
