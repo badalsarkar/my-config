@@ -19,3 +19,15 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 
+-- markdown preview with glow
+keymap.set("n", "<leader>mp", function()
+  vim.cmd("split | terminal glow " .. vim.fn.expand("%"))
+end, { desc = "Preview markdown with glow" })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.keymap.set("n", "q", "<cmd>bd!<cr>", { buffer = true })
+  end,
+})
+

@@ -194,6 +194,7 @@ bindswitch --reload --locked lid:off output $laptop_monitor enable
     assign [class="jetbrains-idea"] $ws2
     assign [app_id="jetbrains-pycharm"] $ws2
     assign [class="Code"] $ws2
+    assign [app_id="code"] $ws2
     assign [class="Antigravity"] $ws2
     assign [app_id="firefox"] $ws3
     assign [app_id="org.qutebrowser.qutebrowser"] $ws3
