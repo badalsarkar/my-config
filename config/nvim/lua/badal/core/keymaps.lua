@@ -19,6 +19,11 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 
+-- file search
+keymap.set("n", "<leader>ff", function()
+  require("badal.core.file_search").find_files()
+end, { desc = "Find files" })
+
 -- markdown preview with glow
 keymap.set("n", "<leader>mp", function()
   vim.cmd("split | terminal glow " .. vim.fn.expand("%"))
