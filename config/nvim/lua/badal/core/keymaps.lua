@@ -29,6 +29,16 @@ keymap.set("n", "<leader>mp", function()
   vim.cmd("split | terminal glow " .. vim.fn.expand("%"))
 end, { desc = "Preview markdown with glow" })
 
+-- open current file in pycharm LightEdit (renders markdown preview)
+keymap.set("n", "<leader>mo", function()
+  vim.fn.jobstart({ "pycharm", "-e", vim.fn.expand("%:p") }, { detach = true })
+end, { desc = "Open current file in pycharm" })
+
+-- open current working directory as a project in pycharm
+keymap.set("n", "<leader>popy", function()
+  vim.fn.jobstart({ "pycharm", vim.fn.getcwd() }, { detach = true })
+end, { desc = "Open current project in pycharm" })
+
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
   callback = function()

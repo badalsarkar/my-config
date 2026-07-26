@@ -96,6 +96,12 @@ vim.api.nvim_create_autocmd("FileType", {
         end
       end)
     end, { buffer = true, desc = "Create new file or directory" })
+
+    vim.keymap.set("n", "<leader>mo", function()
+      local fname = vim.fn["netrw#GX"]()
+      local path = fname:match("^/") and fname or (vim.b.netrw_curdir .. "/" .. fname)
+      vim.fn.jobstart({ "pycharm", "-e", path }, { detach = true })
+    end, { buffer = true, desc = "Open file under cursor in pycharm" })
   end,
 })
 
