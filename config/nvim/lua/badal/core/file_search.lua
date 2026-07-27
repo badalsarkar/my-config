@@ -15,6 +15,8 @@
 --   <Up>/<Tab>    - move focus from results back to input
 --   <Esc>         - close without opening anything
 
+local wu = require("badal.core.window_utils")
+
 local M = {}
 
 -- Collect files using fd (respects .gitignore) or fall back to find.
@@ -37,38 +39,6 @@ local function filter_files(all_files, query)
     end
   end
   return result
-end
-
--- Returns a function that closes all given windows (skips already-closed ones).
-local function make_closer(wins)
-  return function()
-    for _, win in ipairs(wins) do
-      if vim.api.nvim_win_is_valid(win) then
-        vim.api.nvim_win_close(win, true)
-      end
-    end
-  end
-end
-
--- Find the best window to open a file in: prefer the caller's window,
--- but skip netrw and floating windows. Falls back to any normal window.
-local function find_target_win(caller_win, iwin, rwin)
-  local function is_usable(win)
-    if not vim.api.nvim_win_is_valid(win) then return false end
-    if win == iwin or win == rwin then return false end
-    local cfg = vim.api.nvim_win_get_config(win)
-    if cfg.relative ~= "" then return false end  -- floating
-    local ft = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
-    return ft ~= "netrw"
-  end
-
-  if is_usable(caller_win) then return caller_win end
-
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if is_usable(win) then return win end
-  end
-
-  return nil  -- no suitable window; edit will open wherever focus lands
 end
 
 function M.find_files()
@@ -111,7 +81,7 @@ function M.find_files()
   vim.wo[rwin].cursorline = true
   vim.wo[rwin].winhighlight = "Normal:Normal,FloatBorder:FloatBorder"
 
-  local safe_close = make_closer({ iwin, rwin })
+  local safe_close = wu.make_closer({ iwin, rwin })
 
   -- current_files: the filtered subset currently shown in rwin
   local current_files = {}
@@ -135,7 +105,7 @@ function M.find_files()
       safe_close()
       -- Schedule so windows finish closing before the buffer is opened
       vim.schedule(function()
-        local target = find_target_win(caller_win, iwin, rwin)
+        local target = wu.find_target_win(caller_win, { iwin, rwin })
         if target then vim.api.nvim_set_current_win(target) end
         vim.cmd("edit " .. vim.fn.fnameescape(f))
         vim.cmd("stopinsert")

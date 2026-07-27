@@ -24,6 +24,22 @@ keymap.set("n", "<leader>ff", function()
   require("badal.core.file_search").find_files()
 end, { desc = "Find files" })
 
+-- string search across all files under the current working directory
+keymap.set("n", "<leader>fs", function()
+  require("badal.core.grep_search").grep_files()
+end, { desc = "Find string in files" })
+
+-- same search, pre-filled with the word under the cursor
+keymap.set("n", "<leader>fw", function()
+  require("badal.core.grep_search").grep_files(vim.fn.expand("<cword>"))
+end, { desc = "Find word under cursor in files" })
+
+-- same search, pre-filled with the visual selection
+keymap.set("v", "<leader>fs", function()
+  vim.cmd('noautocmd normal! "vy')
+  require("badal.core.grep_search").grep_files((vim.fn.getreg("v"):gsub("\n.*", "")))
+end, { desc = "Find selection in files" })
+
 -- markdown preview with glow
 keymap.set("n", "<leader>mp", function()
   vim.cmd("split | terminal glow " .. vim.fn.expand("%"))
