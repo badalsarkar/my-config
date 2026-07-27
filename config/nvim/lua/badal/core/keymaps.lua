@@ -19,6 +19,11 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 
+-- reveal the file in the current buffer in the netrw tree
+keymap.set("n", "<leader>e", function()
+  require("badal.core.file_explorer").reveal_current_file()
+end, { desc = "Reveal current file in netrw" })
+
 -- file search
 keymap.set("n", "<leader>ff", function()
   require("badal.core.file_search").find_files()

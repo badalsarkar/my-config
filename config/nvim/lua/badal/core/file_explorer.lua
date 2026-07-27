@@ -105,16 +105,112 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.keymap.set("n", "<leader>1", function()
+local M = {}
+
+local function find_netrw_win()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "netrw" then
-      if vim.api.nvim_get_current_win() == win then
-        vim.cmd("Lexplore")
-      else
-        vim.api.nvim_set_current_win(win)
-      end
-      return
+      return win
     end
+  end
+  return nil
+end
+
+-- Focus the netrw window, opening it if it is not on screen.
+local function open_explorer()
+  local win = find_netrw_win()
+  if win then
+    vim.api.nvim_set_current_win(win)
+    return win
+  end
+  vim.cmd("Lexplore")
+  return find_netrw_win()
+end
+
+vim.keymap.set("n", "<leader>1", function()
+  local win = find_netrw_win()
+  if win then
+    if vim.api.nvim_get_current_win() == win then
+      vim.cmd("Lexplore")
+    else
+      vim.api.nvim_set_current_win(win)
+    end
+    return
   end
   vim.cmd("Lexplore")
 end, { desc = "Toggle or focus netrw file explorer" })
+
+-- netrw's s:treedepthstring: one of these per nesting level in tree list style.
+-- (netrw only uses the "│ " variant under a GUI, so terminal nvim always gets "| ".)
+local DEPTH = "| "
+
+-- netrw keys w:netrw_treedict by the absolute path of every expanded directory,
+-- sometimes with and sometimes without the trailing slash.
+local function is_expanded(dir)
+  local treedict = vim.w.netrw_treedict or {}
+  return treedict[dir] ~= nil or treedict[dir .. "/"] ~= nil
+end
+
+-- Move the cursor to the `depth`-nested entry named `name`, searching forward
+-- from where the cursor already is. Searching from the parent's line (rather
+-- than the top of the buffer) is what keeps same-named files apart: a
+-- directory's children are always the first entries of that depth below it.
+local function goto_entry(depth, name)
+  local pattern = "^\\V" .. DEPTH:rep(depth) .. vim.fn.escape(name, "\\")
+  return vim.fn.search(pattern, "W")
+end
+
+-- Expand the tree down to the file in the current buffer and put the cursor on it.
+function M.reveal_current_file()
+  local path = vim.api.nvim_buf_get_name(0)
+  if vim.bo.filetype == "netrw" or vim.bo.buftype ~= "" or path == "" then
+    vim.notify("No file in this buffer to reveal", vim.log.levels.WARN)
+    return
+  end
+
+  path = vim.fn.fnamemodify(path, ":p")
+  if vim.fn.filereadable(path) ~= 1 then
+    vim.notify("Not a readable file: " .. path, vim.log.levels.WARN)
+    return
+  end
+
+  if not open_explorer() then
+    vim.notify("Could not open netrw", vim.log.levels.ERROR)
+    return
+  end
+
+  local function root()
+    local top = vim.w.netrw_treetop or vim.b.netrw_curdir or vim.fn.getcwd()
+    return (top:gsub("/$", ""))
+  end
+
+  -- If the file lives outside the tree, re-root the explorer at its directory.
+  -- (:edit on a directory does not re-trigger netrw from inside a netrw buffer,
+  -- :Explore does.)
+  local top = root()
+  if path:sub(1, #top + 1) ~= top .. "/" then
+    vim.cmd("Explore " .. vim.fn.fnameescape(vim.fn.fnamemodify(path, ":h")))
+    top = root()
+    if path:sub(1, #top + 1) ~= top .. "/" then
+      vim.notify("Could not root netrw at " .. path, vim.log.levels.WARN)
+      return
+    end
+  end
+
+  local parts = vim.split(path:sub(#top + 2), "/")
+  vim.fn.cursor(1, 1)
+
+  for i, part in ipairs(parts) do
+    local is_dir = i < #parts
+    if goto_entry(i, is_dir and (part .. "/") or part) == 0 then
+      vim.notify("Could not find " .. part .. " in the tree", vim.log.levels.WARN)
+      return
+    end
+    -- <CR> toggles, so only press it on directories that are still collapsed.
+    if is_dir and not is_expanded(top .. "/" .. table.concat(parts, "/", 1, i)) then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "x", false)
+    end
+  end
+end
+
+return M
