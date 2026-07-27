@@ -55,10 +55,10 @@ keymap.set("n", "<leader>mo", function()
   vim.fn.jobstart({ "pycharm", "-e", vim.fn.expand("%:p") }, { detach = true })
 end, { desc = "Open current file in pycharm" })
 
--- open current working directory as a project in pycharm
-keymap.set("n", "<leader>popy", function()
-  vim.fn.jobstart({ "pycharm", vim.fn.getcwd() }, { detach = true })
-end, { desc = "Open current project in pycharm" })
+-- open current working directory as a project in an IDE (picks from installed ones)
+keymap.set("n", "<leader>po", function()
+  require("badal.core.ide_open").open()
+end, { desc = "Open current project in IDE" })
 
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
