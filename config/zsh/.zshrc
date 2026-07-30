@@ -17,8 +17,6 @@ PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f $ '
 
 # My directory setup
 export BADAL_HOME=$HOME/Documents
-export ZOHO_CLIENT_ID='1000.8EL5RWOP4KSEXLECJ9GX5AR0R2Z5TY'
-export ZOHO_CLIENT_SECRET='646edb1002e6912abb2e1923022842857f94111cc8'
 # Source aliases
 source $BADAL_HOME/badal/my-config/aliases/zsh/base-aliases
 source $BADAL_HOME/badal/my-config/aliases/zsh/git-aliases
