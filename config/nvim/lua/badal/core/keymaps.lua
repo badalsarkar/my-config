@@ -29,6 +29,11 @@ keymap.set("n", "<leader>ff", function()
   require("badal.core.file_search").find_files()
 end, { desc = "Find files" })
 
+-- find a directory (including nested ones) and reveal it in netrw
+keymap.set("n", "<leader>fd", function()
+  require("badal.core.dir_search").find_dirs()
+end, { desc = "Find directory and reveal in netrw" })
+
 -- string search across all files under the current working directory
 keymap.set("n", "<leader>fs", function()
   require("badal.core.grep_search").grep_files()
