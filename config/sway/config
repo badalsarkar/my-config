@@ -199,6 +199,7 @@ bindswitch --reload --locked lid:off output $laptop_monitor enable
     assign [app_id="firefox"] $ws3
     assign [app_id="org.qutebrowser.qutebrowser"] $ws3
     assign [class="google-chrome"] $ws3
+    assign [class="bruno"] $ws4
     # assign [class="^code-oss$"] $ws2
 
 #

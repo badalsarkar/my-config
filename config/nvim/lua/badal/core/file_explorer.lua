@@ -239,4 +239,82 @@ function M.reveal_dir(path)
   reveal_path(path, true)
 end
 
+-- Expand every directory in the tree, however deeply nested. netrw has no
+-- native recursive expand, so this repeatedly walks the buffer top-to-bottom
+-- rebuilding each entry's absolute path from the depth-prefixed line above it,
+-- and presses <CR> on the first still-collapsed directory it finds. A newly
+-- expanded directory inserts its children right below, so restarting the walk
+-- from the top after each expansion is what reaches them.
+--
+-- Dotfiles repos are full of symlinks, and a symlink that points back at an
+-- ancestor directory makes the *displayed* path grow forever (foo/bar/foo/
+-- bar/...) without ever repeating, so dedup by that string never fires.
+-- Instead we dedup by the resolved realpath, which a cycle does repeat, and
+-- keep a hard cap as a circuit breaker regardless of cause.
+local MAX_EXPANSIONS = 2000
+
+-- Directories left collapsed by expand_all: usually huge, rarely worth
+-- browsing, and would otherwise dominate the walk. Edit freely.
+local SKIP_DIRS = {
+  [".git"] = true,
+  ["node_modules"] = true,
+  [".cache"] = true,
+  ["__pycache__"] = true,
+  [".venv"] = true,
+  ["venv"] = true,
+}
+
+function M.expand_all()
+  local top = (vim.w.netrw_treetop or vim.b.netrw_curdir or vim.fn.getcwd()):gsub("/$", "")
+  local visited = {}
+  local count = 0
+
+  while true do
+    local stack = {}
+    local expanded_one = false
+
+    for lnum = 1, vim.api.nvim_buf_line_count(0) do
+      local rest, depth = vim.fn.getline(lnum), 0
+      while rest:sub(1, #DEPTH) == DEPTH do
+        depth = depth + 1
+        rest = rest:sub(#DEPTH + 1)
+      end
+
+      if rest:sub(-1) == "/" and rest ~= "./" and rest ~= "../" then
+        local name = rest:sub(1, -2)
+        stack[depth + 1] = name
+        for i = depth + 2, #stack do
+          stack[i] = nil
+        end
+
+        local path = top .. "/" .. table.concat(stack, "/", 1, depth + 1)
+        local real = vim.fn.resolve(path)
+        if not SKIP_DIRS[name] and not visited[real] and not is_expanded(path) then
+          visited[real] = true
+          count = count + 1
+          if count > MAX_EXPANSIONS then
+            vim.notify("expand_all: stopped after " .. MAX_EXPANSIONS .. " directories (possible symlink cycle?)", vim.log.levels.WARN)
+            return
+          end
+          vim.fn.cursor(lnum, 1)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "x", false)
+          expanded_one = true
+          break
+        end
+      end
+    end
+
+    if not expanded_one then
+      break
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    vim.keymap.set("n", "zR", M.expand_all, { buffer = true, desc = "Expand all directories in the tree" })
+  end,
+})
+
 return M
