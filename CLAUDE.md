@@ -46,28 +46,34 @@ scripts/              # one-shot install scripts (Fedora-targeted)
 
 Entry point: `config/nvim/init.lua` → `require("badal.core")`
 
-- `lua/badal/core/init.lua` — loads `options`, `keymaps`, `file_explorer`, `file_search`, `grep_search`, `ide_open`
+- `lua/badal/core/init.lua` — loads `options`, `keymaps`, `file_explorer`, `file_search`, `recent_files`, `dir_search`, `grep_search`, `ide_open`
 - `lua/badal/core/options.lua` — vim options (tabs, search, UI)
 - `lua/badal/core/keymaps.lua` — leader key (`<Space>`), splits, tabs, markdown preview; also where the search keymaps are bound
 - `lua/badal/core/file_explorer.lua` — netrw config; `<leader>1` toggles/focuses it; `a` in netrw creates files/dirs via popup
 - `lua/badal/core/file_search.lua` — plugin-free file finder; `<leader>ff` opens floating prompt with live filtering; uses `fd` if available, falls back to `find`
+- `lua/badal/core/recent_files.lua` — MRU file picker; `<leader>fr` opens the same floating prompt over files visited this session, scoped to cwd
+- `lua/badal/core/mru.lua` — session-local visited-files tracker backing `recent_files.lua`; hooks `BufEnter` because `v:oldfiles` only loads once at startup and never reflects files opened during the running session
 - `lua/badal/core/grep_search.lua` — plugin-free string search across the cwd; `<leader>fs` (normal or visual), `<leader>fw` for the word under the cursor; requires `rg`
 - `lua/badal/core/ide_open.lua` — opens the cwd as a project in a GUI IDE; `<leader>po` offers whichever of PyCharm/IDEA/GoLand/WebStorm/VS Code are installed via `vim.ui.select`
-- `lua/badal/core/window_utils.lua` — float helpers shared by the two pickers (`make_closer`, `find_target_win`)
+- `lua/badal/core/window_utils.lua` — shared picker scaffold (`open_picker`) plus float helpers (`make_closer`, `find_target_win`, `filter_substring`, `open_file`) used by `file_search.lua`, `recent_files.lua`, and `grep_search.lua`
 - `lua/badal/lazy.lua` — bootstraps lazy.nvim and loads plugins from `badal.plugins` and `badal.plugins.lsp`
 
 Plugin specs live under `lua/badal/plugins/` (not tracked in this repo — managed by lazy.nvim at runtime).
 
 ### Picker conventions
 
-Both pickers use the same two-float layout (input on top, results below) and the same
-navigation: type to filter live, `<Down>`/`<Tab>` to the results list, `<Up>`/`<Tab>` back,
-`<CR>` to open, `<Esc>` to cancel. Gotchas worth knowing before editing them:
+All three pickers (`file_search.lua`, `recent_files.lua`, `grep_search.lua`) are built on
+`window_utils.lua`'s `open_picker()`, which owns the two-float layout (input on top, results
+below) and the shared navigation: type to filter live, `<Down>`/`<Tab>` to the results list,
+`<Up>`/`<Tab>` back, `<CR>` to open, `<Esc>` to cancel. A picker module just supplies a data
+source and two callbacks (`on_query`, `on_select`); `on_close` is available for cleanup like
+`grep_search.lua`'s in-flight ripgrep job. Gotchas worth knowing before editing them:
 
 - Target nvim is **0.9.5** — no `vim.uv` (that's 0.10+). `grep_search.lua` debounces with `vim.defer_fn` rather than a libuv timer for this reason.
 - `rg` reads **stdin** when given no path, and `jobstart()` hands it a pipe that never closes, so the command must end in an explicit `.` or the search hangs forever.
-- Bind picker keys in **normal mode as well as insert** — the global `jj` → `<Esc>` mapping can drop you out of insert inside the prompt, and insert-only bindings leave the picker inert. `grep_search.lua` does this; `file_search.lua` does not yet.
+- Picker keys are bound in **normal mode as well as insert** (via `open_picker()`) — the global `jj` → `<Esc>` mapping can drop you out of insert inside the prompt, and insert-only bindings would leave the picker inert.
 - In `grep_search.lua`, space-separated terms are ANDed by chaining `rg | rg | …`, so the filtering stages see the whole `file:line:col:text` record — an extra term can match the path, not just the line text.
+- `v:oldfiles` is a load-time-only snapshot — it never updates during a running session. `recent_files.lua` reads from `mru.lua`'s live `BufEnter` tracker instead, so files just opened (edited or not) show up immediately.
 
 ## tmux Config Notes
 

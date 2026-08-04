@@ -29,6 +29,11 @@ keymap.set("n", "<leader>ff", function()
   require("badal.core.file_search").find_files()
 end, { desc = "Find files" })
 
+-- jump between recently opened files
+keymap.set("n", "<leader>fr", function()
+  require("badal.core.recent_files").find_recent()
+end, { desc = "Find recent files" })
+
 -- find a directory (including nested ones) and reveal it in netrw
 keymap.set("n", "<leader>fd", function()
   require("badal.core.dir_search").find_dirs()
