@@ -1,22 +1,37 @@
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  vim.fn.system { 
-    'git', 
-    'clone', 
-    '--filter=blob:none', 
-    '--branch=stable', 
-    lazyrepo, 
-    lazypath 
-  }
-end 
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({{ import = "badal.plugins"}, {import ="badal.plugins.lsp"}}, {
-  change_detection = {
-    notify = false
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
-  }
-}) -- the location where all the plugins will be installed
+-- Setup lazy.nvim
+require("lazy").setup({
+  spec = {
+    -- import your plugins
+    { import = "badal.plugins" },
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins. habamax is the
+  -- bundled fallback for the very first install, before tokyonight is cloned --
+  -- nvim 0.9's built-in default scheme renders floats on a #FF00FF background.
+  install = { colorscheme = { "tokyonight", "habamax" } },
+  -- automatically check for plugin updates
+  checker = { enabled = true },
+})

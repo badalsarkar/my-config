@@ -56,9 +56,13 @@ Entry point: `config/nvim/init.lua` → `require("badal.core")`
 - `lua/badal/core/grep_search.lua` — plugin-free string search across the cwd; `<leader>fs` (normal or visual), `<leader>fw` for the word under the cursor; requires `rg`
 - `lua/badal/core/ide_open.lua` — opens the cwd as a project in a GUI IDE; `<leader>po` offers whichever of PyCharm/IDEA/GoLand/WebStorm/VS Code are installed via `vim.ui.select`
 - `lua/badal/core/window_utils.lua` — shared picker scaffold (`open_picker`) plus float helpers (`make_closer`, `find_target_win`, `filter_substring`, `open_file`) used by `file_search.lua`, `recent_files.lua`, and `grep_search.lua`
-- `lua/badal/lazy.lua` — bootstraps lazy.nvim and loads plugins from `badal.plugins` and `badal.plugins.lsp`
+- `lua/badal/lazy.lua` — bootstraps lazy.nvim and loads plugins from `badal.plugins`
 
-Plugin specs live under `lua/badal/plugins/` (not tracked in this repo — managed by lazy.nvim at runtime).
+Plugin specs live under `lua/badal/plugins/` and are tracked in this repo, pinned by
+`config/nvim/lazy-lock.json`. Currently: treesitter, render-markdown, and the tokyonight
+colorscheme. Note that nvim 0.9's built-in default colorscheme renders floats on a `#FF00FF`
+background once `termguicolors` is on, so a real colorscheme must load eagerly
+(`lazy = false`, `priority = 1000`) or lazy.nvim's own UI comes up magenta.
 
 ### Picker conventions
 

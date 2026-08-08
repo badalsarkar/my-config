@@ -7,7 +7,7 @@ opt.number = true
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
 opt.expandtab = true -- expand tab to spaces
-opt.autoindent = ture -- copy indent from current line when starting new one
+opt.autoindent = true -- copy indent from current line when starting new one
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
