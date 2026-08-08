@@ -149,6 +149,44 @@ vim.keymap.set("n", "<leader>1", function()
   vim.cmd("Lexplore")
 end, { desc = "Toggle or focus netrw file explorer" })
 
+-- Open the explorer automatically on startup.
+--
+-- `nvim -` / `something | nvim` writes the piped text into the first buffer;
+-- StdinReadPre fires before VimEnter, so it is the only reliable way to tell
+-- that case apart and leave it alone.
+local started_from_stdin = false
+vim.api.nvim_create_autocmd("StdinReadPre", {
+  once = true,
+  callback = function()
+    started_from_stdin = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    -- No UI means --headless (scripts, `nvim -c ... +q`); nothing to show.
+    if started_from_stdin or #vim.api.nvim_list_uis() == 0 then
+      return
+    end
+    -- `nvim <dir>` already hands the main window to netrw. Test the buffer
+    -- name, not the filetype: at VimEnter netrw has not taken over the
+    -- directory buffer yet, so find_netrw_win() still comes back empty.
+    if find_netrw_win() or vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) == 1 then
+      return
+    end
+
+    local prev = vim.api.nvim_get_current_win()
+    vim.cmd("Lexplore")
+
+    -- With a file to edit, stay in it; with nothing open, the explorer is the
+    -- thing you actually want the cursor in.
+    if vim.fn.argc() > 0 and vim.api.nvim_win_is_valid(prev) then
+      vim.api.nvim_set_current_win(prev)
+    end
+  end,
+})
+
 -- netrw's s:treedepthstring: one of these per nesting level in tree list style.
 -- (netrw only uses the "│ " variant under a GUI, so terminal nvim always gets "| ".)
 local DEPTH = "| "

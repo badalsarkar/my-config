@@ -49,7 +49,7 @@ Entry point: `config/nvim/init.lua` → `require("badal.core")`
 - `lua/badal/core/init.lua` — loads `options`, `keymaps`, `file_explorer`, `file_search`, `recent_files`, `dir_search`, `grep_search`, `ide_open`
 - `lua/badal/core/options.lua` — vim options (tabs, search, UI)
 - `lua/badal/core/keymaps.lua` — leader key (`<Space>`), splits, tabs, markdown preview; also where the search keymaps are bound
-- `lua/badal/core/file_explorer.lua` — netrw config; `<leader>1` toggles/focuses it; `a` in netrw creates files/dirs via popup
+- `lua/badal/core/file_explorer.lua` — netrw config; `<leader>1` toggles/focuses it; `a` in netrw creates files/dirs via popup; a `VimEnter` autocmd opens the explorer on startup (skipped for `--headless`, piped stdin, and `nvim <dir>`, where netrw already owns the main window — that case is detected by the buffer *name*, since the netrw filetype is not set yet at `VimEnter`)
 - `lua/badal/core/file_search.lua` — plugin-free file finder; `<leader>ff` opens floating prompt with live filtering; uses `fd` if available, falls back to `find`
 - `lua/badal/core/recent_files.lua` — MRU file picker; `<leader>fr` opens the same floating prompt over files visited this session, scoped to cwd
 - `lua/badal/core/mru.lua` — session-local visited-files tracker backing `recent_files.lua`; hooks `BufEnter` because `v:oldfiles` only loads once at startup and never reflects files opened during the running session
