@@ -12,6 +12,13 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
 
+-- Ctrl+hjkl between splits, continuing into the surrounding tmux panes at the edge
+for _, dir in ipairs({ "h", "j", "k", "l" }) do
+  keymap.set("n", "<C-" .. dir .. ">", function()
+    require("badal.core.tmux_navigate").navigate(dir)
+  end, { desc = "Move to split/tmux pane " .. dir })
+end
+
 -- tab management
 keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
 keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })

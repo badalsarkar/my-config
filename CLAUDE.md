@@ -46,7 +46,7 @@ scripts/              # one-shot install scripts (Fedora-targeted)
 
 Entry point: `config/nvim/init.lua` → `require("badal.core")`
 
-- `lua/badal/core/init.lua` — loads `options`, `keymaps`, `file_explorer`, `file_search`, `recent_files`, `dir_search`, `grep_search`, `ide_open`
+- `lua/badal/core/init.lua` — loads `options`, `keymaps`, `file_explorer`, `file_search`, `recent_files`, `dir_search`, `grep_search`, `ide_open`, `tmux_navigate`
 - `lua/badal/core/options.lua` — vim options (tabs, search, UI)
 - `lua/badal/core/keymaps.lua` — leader key (`<Space>`), splits, tabs, markdown preview; also where the search keymaps are bound
 - `lua/badal/core/file_explorer.lua` — netrw config; `<leader>1` toggles/focuses it; `a` in netrw creates files/dirs via popup; a `VimEnter` autocmd opens the explorer on startup (skipped for `--headless`, piped stdin, and `nvim <dir>`, where netrw already owns the main window — that case is detected by the buffer *name*, since the netrw filetype is not set yet at `VimEnter`)
@@ -55,6 +55,7 @@ Entry point: `config/nvim/init.lua` → `require("badal.core")`
 - `lua/badal/core/mru.lua` — session-local visited-files tracker backing `recent_files.lua`; hooks `BufEnter` because `v:oldfiles` only loads once at startup and never reflects files opened during the running session
 - `lua/badal/core/grep_search.lua` — plugin-free string search across the cwd; `<leader>fs` (normal or visual), `<leader>fw` for the word under the cursor; requires `rg`
 - `lua/badal/core/ide_open.lua` — opens the cwd as a project in a GUI IDE; `<leader>po` offers whichever of PyCharm/IDEA/GoLand/WebStorm/VS Code are installed via `vim.ui.select`
+- `lua/badal/core/tmux_navigate.lua` — plugin-free vim-tmux-navigator replacement behind `Ctrl+hjkl` (bound in `keymaps.lua`): runs `wincmd <dir>`, and if the window did not change it was an edge, so it shells out to `tmux select-pane`. `.tmux.conf`'s `is_vim` check forwards these keys into nvim, so without this module they are swallowed. netrw claims `<C-l>` buffer-locally for its refresh command, so `file_explorer.lua` re-binds all four keys in netrw buffers — otherwise the cursor is stuck in the sidebar
 - `lua/badal/core/window_utils.lua` — shared picker scaffold (`open_picker`) plus float helpers (`make_closer`, `find_target_win`, `filter_substring`, `open_file`) used by `file_search.lua`, `recent_files.lua`, and `grep_search.lua`
 - `lua/badal/lazy.lua` — bootstraps lazy.nvim and loads plugins from `badal.plugins`
 
@@ -82,10 +83,11 @@ source and two callbacks (`on_query`, `on_select`); `on_close` is available for 
 ## tmux Config Notes
 
 - Layout scripts: `prefix+N` (laptop), `prefix+W` (widescreen) run `config/tmux/layouts/laptop.sh` and `widescreen.sh`
+- Pane jumping is `Ctrl+1`..`Ctrl+3` (no prefix). This depends on `config/alacritty/alacritty.toml`: terminals have no native encoding for Ctrl+digit, so Alacritty is bound to emit the CSI-u form (`ESC [ 49 ; 5 u` for Ctrl+1) which tmux parses back into `C-1`. Change one side and the other must follow. Note the deployed `~/.config/alacritty/alacritty.toml` is a real file, not a symlink to this repo, so it has to be edited too
 - Last-window toggle (`prefix+L`) uses `config/tmux/last-pane-track.sh` via a `pane-focus-in` hook
 - Paths in `.tmux.conf` are hardcoded to `~/Documents/badal/my-config/` — update these if the repo moves
 - Uses TPM for plugins: tmux-resurrect, tmux-continuum (auto-restore on), tmux-yank
-- vim-tmux-navigator: `Ctrl+hjkl` moves between nvim splits and tmux panes without prefix
+- `Ctrl+hjkl` moves between nvim splits and tmux panes without prefix. tmux uses the vim-tmux-navigator `is_vim` protocol, but the plugin itself is not installed — the nvim side is `lua/badal/core/tmux_navigate.lua`. Testing note: `tmux send-keys` injects into the pane and bypasses tmux's own key table, so root-table bindings can only be exercised by a real client (nest a tmux inside a tmux pane and feed raw bytes with `send-keys -H`)
 
 ## zsh / Aliases
 

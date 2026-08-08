@@ -59,6 +59,16 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.keymap.set("n", "<Esc>", "<C-w>p", { buffer = true, desc = "Focus previous window" })
 
+    -- netrw claims <C-l> for its refresh command with a buffer-local mapping,
+    -- which would trap the cursor here: the explorer sits on the left, so C-l is
+    -- exactly the key you reach for to leave it. Hand the direction keys back to
+    -- the split/tmux navigator (netrw's own <C-l> stays available as :e .).
+    for _, dir in ipairs({ "h", "j", "k", "l" }) do
+      vim.keymap.set("n", "<C-" .. dir .. ">", function()
+        require("badal.core.tmux_navigate").navigate(dir)
+      end, { buffer = true, desc = "Move to split/tmux pane " .. dir })
+    end
+
     vim.keymap.set("n", "a", function()
       local curdir = vim.b.netrw_curdir
       local netrw_win = vim.api.nvim_get_current_win()
