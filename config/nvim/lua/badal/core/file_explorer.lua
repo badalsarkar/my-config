@@ -1,6 +1,15 @@
 vim.g.netrw_liststyle = 3
 vim.g.netrw_winsize = 30
 
+-- netrw's default fastbrowse (1) installs a FocusGained autocmd that
+-- resyncs w:netrw_treedict from disk on every focus regain. That resync
+-- has a long-standing upstream bug walking nested tree entries (netrw
+-- looks a dir up keyed with or without a trailing slash and silently
+-- stops descending on a miss - see the is_expanded comment below), which
+-- collapses expanded nested directories after switching away and back.
+-- fastbrowse=2 skips installing that autocmd altogether.
+vim.g.netrw_fastbrowse = 2
+
 local function input_popup(prompt, callback)
   local buf = vim.api.nvim_create_buf(false, true)
   local width = 50
